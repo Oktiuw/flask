@@ -1,4 +1,5 @@
 from movie import Movie
+from movie_library import MovieLibrary
 
 print(Movie.durationToString(512))
 print(Movie.durationToString(4096))
@@ -60,3 +61,31 @@ print(m1)
 
 print(m1.hasGenre('Animation'))
 print(m1.hasGenre('A'))
+
+m1: Movie = Movie('Les évadés', ["Drame"], 142, 9.0)
+m2: Movie = Movie("Les indestructibles", ["Animation", "Action", "Aventure"], 115, 8.0)
+m3: Movie = Movie("Le parrain", ["Drame", "Crime"], 177, 7.0)
+m4: Movie = Movie("La Liste de Schnidler", ["Drame", "Histoire", "Guerre"], 195, 6.0)
+m5: Movie = Movie("La Ligne verte", ["Fantastique", "Drame", "Crime"], 189, 9.0)
+m6: Movie = Movie("Your Name", ["Romance", "Animation", "Drame"], 107, 9.0)
+
+movieLib = MovieLibrary()
+movieLib.addMovie(m1)
+movieLib.addMovie(m2)
+movieLib.addMovie(m3)
+movieLib.addMovie(m4)
+movieLib.addMovie(m5)
+movieLib.addMovie(m6)
+print(movieLib.containsMovieWithTitle("Les évadés"))
+print(movieLib.containsMovieWithTitle("Les bronzés 3"))
+
+try:
+    movieLib.addMovie(m1)
+    print('La ligne précédente aurait dû lancer une exception !!?')
+except ValueError as e:
+    print(f"L’exception \"{e}\" a bien été lancée.")
+except:
+    print("Ce n’est pas la bonne exception qui a été lancée !!?")
+
+print(movieLib.getTotalDuration())
+print(movieLib.showMoviesWithGenre("Drame"))
