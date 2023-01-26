@@ -4,6 +4,7 @@ def durationToString(minutes: int) -> str:
 
 def ratingToStars(rating, maxi) -> str:
     res = ""
+    rating=int(rating)
     for i in range(rating):
         res += "★"
     while len(res) < maxi:
@@ -15,6 +16,8 @@ class Movie:
     def __init__(self: object, title: str, duration: int = 0, rating: float = 0.0):
         self._title = title
         self._duration = duration
+        if not 0 <= rating <= 10:
+            raise ValueError
         self.rating = rating
 
     # Mise en place de la propriété “title” en lecture seule
@@ -69,4 +72,9 @@ class Movie:
         Paramètre:
         r: nouvelle note du film (entre 0 et 10)
         """
+        if not 0 <= r <= 10:
+            raise ValueError
         self._setRating(r)
+
+    def __repr__(self: object) -> str:
+        return f"{self.title} ({self.duration})\n{ratingToStars(self.rating,10)}"
