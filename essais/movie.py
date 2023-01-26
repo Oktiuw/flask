@@ -12,23 +12,61 @@ def ratingToStars(rating, maxi) -> str:
 
 
 class Movie:
-    def __init__(self, title: str, duration: int, rating=0):
-        if rating > 10 or rating < 0:
-            raise ValueError
-        self.title = title
+    def __init__(self: object, title: str, duration: int = 0, rating: float = 0.0):
+        self._title = title
         self._duration = duration
-        self._rating = float(rating)
+        self.rating = rating
 
-    def getTitle(self) -> str:
-        return self.title
+    # Mise en place de la propriété “title” en lecture seule
+    def _getTitle(self: object) -> str:
+        return self._title
 
-    def getDuration(self) -> int:
+    @property
+    def title(self: object) -> str:
+        """
+        Retourne le titre du film.
+        Retour:
+        Titre du film
+        """
+        return self._getTitle()
+
+    # Mise en place de la propriété “duration” en lecture seule
+    def _getDuration(self: object) -> int:
         return self._duration
 
-    def getRating(self) -> float:
+    @property
+    def duration(self: object) -> int:
+        """
+        Retourne la durée du film (exprimée en minutes).
+        Retour:
+        Durée du film
+        """
+
+        return self._getDuration()
+
+    # Mise en place de la proprité “rating” en lecture et écriture
+    def _getRating(self: object) -> float:
         return self._rating
 
-    def setRating(self, rating: float):
-        if rating > 10 or rating < 0:
-            raise ValueError
+    def _setRating(self: object, rating: float) -> None:
         self._rating = rating
+
+    @property
+    def rating(self: object) -> float:
+        """
+        Retourne la note donnée au film (comprise entre 0 et 10).
+        Retour:
+        Note du film
+        """
+
+        return self._getRating()
+
+    @rating.setter
+    def rating(self: object, r: float) -> None:
+        """
+        Modifie la note du film.
+        La note doit être comprise entre 0 et 10
+        Paramètre:
+        r: nouvelle note du film (entre 0 et 10)
+        """
+        self._setRating(r)
