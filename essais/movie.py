@@ -9,3 +9,12 @@ def ratingToStars(rating, maxi) -> str:
     while len(res) < maxi:
         res += "☆"
     return res
+
+
+class Movie:
+    def __init__(self, title: str, duration: int, rating=0):
+        if rating > 10 or rating < 0:
+            raise ValueError
+        self.title = title
+        self._duration = duration
+        self._rating = float(rating)
