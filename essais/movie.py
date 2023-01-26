@@ -1,10 +1,14 @@
+from typing import List
+
+
 class Movie:
-    def __init__(self: object, title: str, duration: int = 0, rating: float = 0.0):
+    def __init__(self: object, title: str, genre: List[str], duration: int = 0, rating: float = 0.0):
         self._title = title
         self._duration = duration
         if not 0 <= rating <= 10:
             raise ValueError
         self.rating = rating
+        self._genres = genre
 
     # Mise en place de la propriété “title” en lecture seule
     def _getTitle(self: object) -> str:
@@ -61,9 +65,21 @@ class Movie:
         if not 0 <= r <= 10:
             raise ValueError
         self._setRating(r)
+
+    def _getGenres(self: object) -> List[str]:
+        return self._genres
+
+    def hasGenre(self, genre: str) -> bool:
+        return genre in self.genres
+
+    @property
+    def genres(self: object) -> str:
+        return self._getGenres()
+
     @staticmethod
     def durationToString(minutes: int) -> str:
         return f"{minutes // 60:02}:{minutes % 60:02}"
+
     @staticmethod
     def ratingToStars(rating, maxi) -> str:
         res = ""
@@ -73,5 +89,6 @@ class Movie:
         while len(res) < maxi:
             res += "☆"
         return res
+
     def __repr__(self: object) -> str:
-        return f"{self.title} ({self.duration})\n{Movie.ratingToStars(self.rating,10)}"
+        return f"{self.title} ({'/'.join(self.genres)} - {Movie.durationToString(self.duration)})\n{Movie.ratingToStars(self.rating, 10)}"
