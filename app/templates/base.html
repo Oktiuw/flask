@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<!-- templates/base.html -->
+<!--
+ Page titre avec barre de navigation
+ Paramètres :
+ title : titre de la page (str)
+-->
+<!doctype html>
+<html>
+ <head>
+<title>
+ {% if title %}
+ {{ title }} - Mon Application
+ {% else %}
+ Bienvenue dans Mon Application
+ {% endif %}
+ </title>
+ </head>
+ <body>
+ <header style="background-color: antiquewhite">
+  <a href="/index"><img src="{{ url_for('static', filename='img/flask.png') }}" alt="Logo" height="150px" width="350"/></a>
+  <nav>
+ </nav>
+  </header>
+ <hr>
+ <!-- Les pages s'afficheront ici -->
+ {% block contenu %}
+ {% endblock %}
+ <!-- fin d'affichage des pages -->
+ </body>
 </html>
