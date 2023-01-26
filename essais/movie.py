@@ -1,17 +1,3 @@
-def durationToString(minutes: int) -> str:
-    return f"{minutes // 60:02}:{minutes % 60:02}"
-
-
-def ratingToStars(rating, maxi) -> str:
-    res = ""
-    rating=int(rating)
-    for i in range(rating):
-        res += "★"
-    while len(res) < maxi:
-        res += "☆"
-    return res
-
-
 class Movie:
     def __init__(self: object, title: str, duration: int = 0, rating: float = 0.0):
         self._title = title
@@ -75,6 +61,17 @@ class Movie:
         if not 0 <= r <= 10:
             raise ValueError
         self._setRating(r)
-
+    @staticmethod
+    def durationToString(minutes: int) -> str:
+        return f"{minutes // 60:02}:{minutes % 60:02}"
+    @staticmethod
+    def ratingToStars(rating, maxi) -> str:
+        res = ""
+        rating = int(rating)
+        for i in range(rating):
+            res += "★"
+        while len(res) < maxi:
+            res += "☆"
+        return res
     def __repr__(self: object) -> str:
-        return f"{self.title} ({self.duration})\n{ratingToStars(self.rating,10)}"
+        return f"{self.title} ({self.duration})\n{Movie.ratingToStars(self.rating,10)}"
