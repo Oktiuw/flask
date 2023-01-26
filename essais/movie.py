@@ -18,3 +18,17 @@ class Movie:
         self.title = title
         self._duration = duration
         self._rating = float(rating)
+
+    def getTitle(self) -> str:
+        return self.title
+
+    def getDuration(self) -> int:
+        return self._duration
+
+    def getRating(self) -> float:
+        return self._rating
+
+    def setRating(self, rating: float):
+        if rating > 10 or rating < 0:
+            raise ValueError
+        self._rating = rating

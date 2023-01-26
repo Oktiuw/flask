@@ -33,3 +33,24 @@ except ValueError as e:
     print(f"L’exception \"{e}\" a bien été lancée.")
 except:
     print("Ce n’est pas la bonne exception qui a été lancée !!?")
+
+
+print(m1.getRating())
+print(m1.getDuration())
+print(m1.getTitle())
+
+
+try:
+    m2: Movie = Movie('Les évadés', 122, 5.5)
+    m2.setRating(4)
+    print(m2.getRating())
+    print('Tout est OK.')
+except:
+    print('Les lignes précédentes n’auraient pas dû lancer d’exception !!')
+try:
+    m2.setRating(-1)
+    print('La ligne précédente aurait dû lancer une exception !!?')
+except ValueError as e:
+    print(f"L’exception \"{e}\" a bien été lancée.")
+except:
+    print("Ce n’est pas la bonne exception qui a été lancée !!?")
