@@ -1,7 +1,12 @@
 <!-- app/templates/login.html -->
 {% extends "base.html" %}
+{% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
 {% block contenu %}
+<div class="w3-container w3-blue">
  <h1>Enregistrement</h1>
+    </div>
  <form action="" method="post" novalidate>
      {{ form.hidden_tag() }}
  <p>
