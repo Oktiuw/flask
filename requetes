@@ -14,3 +14,32 @@ db.session.add_all([Post(body="Mais c'est plus simple à utiliser",author=david,
 >>> print(post)
 <Post C'est mon premier post>
 
+28)
+posts = Post.query.order_by(Post.id.asc()).all()
+for post in posts:
+...     print(f"id={post.id}, body={post.body}, timestamp={post.timestamp}, user_id={post.user_id}")
+29)
+posts = Post.query.order_by(Post.timestamp.asc()).all()
+for post in posts:
+...     print(f"id {post.id} date : {post.timestamp},<Post {post.body}>")
+
+30)
+posts = Post.query.filter(Post.body.ilike('%symfony%'))
+for post in posts:
+...     print(post)
+
+31)
+posts = Post.query.filter(Post.user_id==2)
+for post in posts:
+    print(post)
+
+32)
+posts = Post.query.filter(Post.timestamp>=datetime(2020,1,12))
+for post in posts:
+    print(f"date={post.timestamp} ",post )
+
+33)
+users= db.session.query(User).order_by(User.username.asc()).all()
+for user in users:
+    posts=Post.query.filter(Post.user_id==user.id).count()
+    print(f"Nombre de messages de {user.username} : {posts}")
