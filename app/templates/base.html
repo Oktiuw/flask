@@ -53,10 +53,21 @@
    <ul>
     <li><a href="/">Accueil</a></li>
     <li><a href="/apropos">A propos</a></li>
+    <li><a href="/login">Connexion</a> </li>
     </ul>
  </nav>
   </header>
  <hr>
+ <!-- Affichage des messages enregistrés par la fonction flash(...) -->
+ {% with messages = get_flashed_messages() %}
+     {% if messages %}
+     <ul>
+         {% for message in messages %}
+         <li>{{ message }}</li>
+         {% endfor %}
+     </ul>
+   {% endif %}
+   {% endwith %}
  <!-- Les pages s'afficheront ici -->
  {% block contenu %}
  {% endblock %}
