@@ -11,16 +11,18 @@
   <h1>Bonjour {{ user['username'] }}</h1>
   <p>Flask, c'est super !</p>
   <hr/>
+ <div class="posts">
 {% for post in posts %}
- <div>
+
      <p>
      {{ post['author']['username'] }} a dit :
      <b>
      {{ post['body'] }}
      </b>
      </p>
- </div>
+
  {% else %}
+ </div>
  <div>
       <p>
       Il n'y a pas encore de message posté.
