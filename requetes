@@ -1,0 +1,16 @@
+27 )
+>>> db.session.add(User(username='David', email='david@example.com'))
+>>> db.session.add(User(username='Alice', email='alice@example.com'))
+db.session.add_all([Post(body="Flask est-il est bien?",author=john,timestamp=datetime(2020,1,12)), Post(body= "Flask possède beaucoup d'extensions",author=john, timestamp=datetime(2020,1,20))])
+db.session.add_all([Post(body="C'est mon premier post?",author=suzan,timestamp=datetime(2020,1,4)), Post(body= "J'adore Symfony ! ",author=suzan, timestamp=datetime(2020,1,10)),Post(body="Mais Symfony est trop lourd...",author=david,timestamp=datetime(2020,1,12))])
+db.session.add_all([Post(body="Mais c'est plus simple à utiliser",author=david,timestamp=datetime(2020,1,16)),Post(body="Symfony est comparable à Django",author=alice,timestamp=datetime(2020,1,14)),Post(body="Pas du tout",author=alice,timestamp=datetime(2020,1,18))]
+
+>>> post = db.session.query(Post).filter_by(id=1).first()
+>>> print(post)
+<Post Mon premier message !>
+>>> post.timestamp=datetime(2020,1,1)
+>>> post.body="C'est mon premier post"
+>>> db.session.commit()
+>>> print(post)
+<Post C'est mon premier post>
+
