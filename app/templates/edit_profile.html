@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+{% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+{% block contenu %}
+
+<h1>Edition du profil</h1>
+<form action="" method="POST">
+ {{ form.hidden_tag() }}
+   <p>
+       {{ form.username.label }} <br/>
+       {{ form.username(size=32) }} <br/>
+       {% for error in form.username.errors %}
+          <span style="color: red">{{ error }}</span>
+       {% endfor %}
+   </p>
+   <p>
+       {{ form.about_me.label }} <br/>
+       {{ form.about_me(size=32) }} <br/>
+           {% for error in form.about_me.errors %}
+           <span style="color: red">{{ error }}</span>
+           {% endfor %}
+       </p>
+  <p> {{ form.submit() }} </p>
+</form>
+{% endblock %}
