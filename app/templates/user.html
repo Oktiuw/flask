@@ -6,10 +6,11 @@
             {{ user.about_me}}
          </p>
             {%endif%}
+ 
             {% if user.last_seen %}
-         <p>
-            Derni&egrave;re visite : {{ user.last_seen }}
-         </p>
+                 <div class="w3-container w3-right w3-teal">
+                    Dernière visite : {{ moment(user.last_seen).format('LLL') }}
+                 </div>
             {% endif %}
 <hr/>
       {% for post in posts %}
