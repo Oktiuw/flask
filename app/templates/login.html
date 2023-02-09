@@ -5,8 +5,10 @@
 {% endblock %}
 {% block contenu %}
 <div class="w3-container w3-blue">
- <h1>Enregistrement</h1>
+ <h1>Connexion</h1>
     </div>
+<p>
+ Nouveau compte ? <a href="{{ url_for('register') }}">S'enregistrer</a>
  <form action="" method="post" novalidate>
      {{ form.hidden_tag() }}
  <p>

@@ -1,0 +1,52 @@
+<!-- app/templates/register.html -->
+Flask-Login.docx P. Vautrot - 11/01/2020
+{% extends "base.html" %}
+<!--
+ Page affichant le formulaire d'enregistrement
+ paramètres :
+ - title : Titre de la page
+ - form : de type RegistrationForm
+-->
+{% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block contenu %}
+<div class="w3-container w3-blue">
+ <h1>Enregistrement</h1>
+    </div>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.username.label }} <br/>
+        {{ form.username(size=32)}}
+        {% for error in form.username.errors %}
+            <span>{{ error }}</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.email.label }} <br/>
+        {{ form.email(size=32)}}
+        {% for error in form.email.errors %}
+            <span class="erreur">{{ error }}</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }} <br/>
+        {{ form.password(size=32)}}
+        {% for error in form.password.errors %}
+            <span class="erreur">{{ error }}</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.password2.label }} <br/>
+        {{ form.password2(size=32)}}
+        {% for error in form.password2.errors %}
+            <span class="erreur">{{ error }}</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}

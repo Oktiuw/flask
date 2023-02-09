@@ -8,6 +8,10 @@
 <html>
  <head>
      {% block head %}
+          <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}"/>
       {% endblock %}
@@ -20,6 +24,7 @@
  </title>
  </head>
  <body>
+ <div class="animate__animated animate__jello">
  <header style="background-color: antiquewhite">
   <a href="/"><img src="{{ url_for('static', filename='img/flask.png') }}" alt="Logo" height="150px" width="350"/></a>
       <br><br><br>
@@ -50,5 +55,6 @@
  {% block contenu %}
  {% endblock %}
  <!-- fin d'affichage des pages -->
+     </div>
  </body>
 </html>
