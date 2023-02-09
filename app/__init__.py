@@ -28,4 +28,4 @@ moment = Moment(app)
 # On importe le fichier contenant
 # la définition des fonctions de vue
 # ainsi que celui des modèles
-from app import routes, models
+from app import routes, models, erreurs

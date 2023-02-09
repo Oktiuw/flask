@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% block contenu %}
-<h1>Utilisateur {{ user.username }}</h1>
-<div class="w3-container w3-center">
+<h1 class="animate__animated animate__flip animate__delay-2s animate__repeat-2">Utilisateur {{ user.username }}</h1>
+<div class="w3-container w3-center animate__animated animate__flip animate__delay-1s animate__repeat-2" >
 <img src="{{ user.avatar(128) }}"/>
     </div>
     {% if user.about_me %}
-         <p>
+         <p class="animate__animated  animate__jello ">
             {{ user.about_me}}
          </p>
             {%endif%}
 
             {% if user.last_seen %}
-                 <div class="w3-container w3-right w3-teal">
+                 <div class="w3-container w3-right w3-teal animate__animated animate__fadeInTopRight">
                     Dernière visite : {{ moment(user.last_seen).format('LLL') }}
                  </div>
             {% endif %}
         {% if user == current_user %}
-           <div class="w3-container w3-left w3-teal">
+           <div class="w3-container w3-left w3-teal animate__animated animate__fadeInTopLeft">
              <a href="{{ url_for('edit_profile') }}">Editer votre profil</a>
          </div>
          {% endif %}

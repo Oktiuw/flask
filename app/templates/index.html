@@ -9,20 +9,4 @@ title : Titre de la page
 {% block contenu %}
  <!-- Ici, on se concentre uniquement sur le contenu de la page -->
     <h1>Bonjour {{ current_user.username }}</h1>
-    {% for post in current_user.posts %}
-    <div>
-        <p>
-         {{ post.author.username }} a dit :
-            <b>
-            {{ post.body }}
-            </b>
-        </p>
-    </div>
-    {% else %}
-    <div>
-        <p>
-        Il n'y a pas encore de message posté.
-        </p>
-    </div>
-    {% endfor %}
 {% endblock %}
