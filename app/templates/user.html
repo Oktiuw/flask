@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block contenu %}
-<h1 class="animate__animated animate__flip animate__delay-2s animate__repeat-2">Utilisateur {{ user.username }}</h1>
-<div class="w3-container w3-center animate__animated animate__flip animate__delay-1s animate__repeat-2" >
+<h1 class="animate__animated animate__flip animate__delay-1s animate__infinite">Utilisateur {{ user.username }}</h1>
+<div class="w3-container w3-center animate__animated animate__flip animate__delay-1s animate__infinite" >
 <img src="{{ user.avatar(128) }}"/>
     </div>
     {% if user.about_me %}
