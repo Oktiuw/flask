@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import render_template, Response
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
@@ -34,7 +36,7 @@ def apropos() -> str:
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('/index'))
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -68,3 +70,21 @@ def register():
         flash('Bravo ! Vous devenez un nouvel utilisateur !')
         return redirect(url_for('login'))
     return render_template('register.html', title="S'enregistrer", form=form)
+
+
+@app.route('/user/<username>')
+@login_required
+def user(username: str) -> str:
+    user = User.query.filter(User.username == username).first_or_404('Accès refusé')
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user.html', user=user, posts=posts)
+
+
+@app.before_request
+def before_request() :
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
