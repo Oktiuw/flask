@@ -25,9 +25,13 @@
       <br><br><br>
   <nav>
    <ul>
-    <li><a href="/">Accueil</a></li>
-    <li><a href="/apropos">A propos</a></li>
-    <li><a href="/login">Connexion</a> </li>
+    <li><a href="{{url_for('index')}}">Accueil</a></li>
+    <li><a href="{{ url_for('apropos') }}">&Agrave; propos</a></li>
+    {% if current_user.is_anonymous %}
+       <li><a href="{{ url_for('login') }}">Se connecter</a></li>
+    {% else %}
+       <li><a href="{{ url_for('logout') }}">Se déconnecter</a></li>
+ {% endif %}
     </ul>
  </nav>
   </header>
