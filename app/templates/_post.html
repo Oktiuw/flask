@@ -1,0 +1,11 @@
+<!-- app/templates/_post.html -->
+<!--
+ Affichage des "posts" (messages)
+ Paramètres :
+ post : de type Post
+-->
+<table>
+ <tr valign="top">
+ <td><img src="{{ post.author.avatar(36) }}"/></td>
+ <td>{{ post.author.username }} a dit : <br>{{ post.body }}</td>
+ </tr>

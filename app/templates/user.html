@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block contenu %}
 <h1>Utilisateur {{ user.username }}</h1>
+<div class="w3-container w3-center">
+<img src="{{ user.avatar(128) }}"/>
+    </div>
     {% if user.about_me %}
          <p>
             {{ user.about_me}}
@@ -18,9 +21,9 @@
          </div>
          {% endif %}
 <hr/>
-      {% for post in posts %}
-   <p>
-      {{ post.author.username }}  dit : <b>{{ post.body }}</b>
-   </p>
+     {% for post in posts %}
+ <p>
+ {% include "_post.html" %}
+ </p>
  {% endfor %}
 {% endblock %}
