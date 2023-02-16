@@ -76,10 +76,7 @@ def register():
 @login_required
 def user(username: str) -> str:
     user = User.query.filter(User.username == username).first_or_404('Accès refusé')
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
+    posts = user.posts_abonnes()
     return render_template('user.html', user=user, posts=posts)
 
 

@@ -9,7 +9,9 @@
             {{ user.about_me}}
          </p>
             {%endif%}
-
+         <p class="animate__animated animate__bounceIn">
+                {{ user.abonnes.count() }} abonnés, {{ user.abonnement.count() }} abonnements
+         </p>
             {% if user.last_seen %}
                  <div class="w3-container w3-right w3-teal animate__animated animate__fadeInTopRight">
                     Dernière visite : {{ moment(user.last_seen).format('LLL') }}
@@ -33,7 +35,8 @@
                      </p>
                  </div>
          {% endif %}
-<hr/>
+
+<br><br><hr>
      {% for post in posts %}
  <p>
  {% include "_post.html" %}
