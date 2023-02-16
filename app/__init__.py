@@ -39,7 +39,7 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 # Fonction de vue de redirection
 login.login_view = 'login'
-login.login_message = 'Il faut être connecté pour accèder à cette page'
+login.login_message = 'Il faut être connecté pour accèder à cette p age'
 
 moment = Moment(app)
 # On importe le fichier contenant
