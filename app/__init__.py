@@ -1,6 +1,7 @@
 # app/__init__.py
 import logging
-from logging.handlers import SMTPHandler
+import os
+from logging.handlers import SMTPHandler, RotatingFileHandler
 
 from flask import Flask
 from flask_moment import Moment
@@ -16,6 +17,18 @@ from flask_login import LoginManager
 # __name__ contient le nom de l'application : app
 app = Flask(__name__)
 app.config.from_object(Config)
+
+if not app.debug:
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/mon_application.log', maxBytes=512000,backupCount=10)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s : %(message)s [in %(pathname)s:%(lineno)d]'))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Démarrage de MonApplication')
+
+
 if not app.debug:
     if app.config['MAIL_SERVER']:
         auth = None
