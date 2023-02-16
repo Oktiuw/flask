@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from hashlib import md5
 
-
 abonnements = db.Table('abonnements',
                        db.Column('abonne_id', db.Integer, db.ForeignKey('user.id')),
                        db.Column('abonnement_id', db.Integer, db.ForeignKey('user.id')),
@@ -40,19 +39,23 @@ class User(db.Model, UserMixin):
     def check_password(self: object, password: str) -> bool:
         return check_password_hash(self.password_hash, password)
 
-    def abonner(self,user):
+    def abonner(self, user):
         if not self.is_abonne(user):
             self.abonnement.append(user)
-    def desabonner(self,user):
+
+    def desabonner(self, user):
         if self.is_abonne(user):
             self.abonnement.remove(user)
-    def is_abonne(self,user):
-        return self.abonnement.filter(abonnements.c.abonnement_id==user.id).count() > 0
-    def posts_abonnes(self: object) :
+
+    def is_abonne(self, user):
+        return self.abonnement.filter(abonnements.c.abonnement_id == user.id).count() > 0
+
+    def posts_abonnes(self: object):
         suivis = Post.query.join(
-                abonnements, (abonnements.c.abonnement_id == Post.user_id)).filter(
-                 abonnements.c.abonne_id == self.id)
+            abonnements, (abonnements.c.abonnement_id == Post.user_id)).filter(
+            abonnements.c.abonne_id == self.id)
         return suivis.union(self.posts).order_by(Post.timestamp.desc())
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

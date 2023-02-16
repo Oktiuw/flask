@@ -92,7 +92,7 @@ def edit_profile():
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash('Vos modification ont été enregistrées.')
-        return redirect(url_for('user',username=current_user.username))
+        return redirect(url_for('user', username=current_user.username))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
@@ -104,3 +104,35 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
+
+
+@app.route('/abonner/<username>')
+@login_required
+def abonner(username):
+    user = User.query.filter(User.username == username).first()
+    if user is None:
+        flash(f"Erreur {username} non toruvé")
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash(f"Erreur, vous ne pouvez pas vous abonner à vous même")
+        return redirect(url_for('index'))
+    current_user.abonner(user)
+    db.session.commit()
+    flash(f"Vous venez de vous abonner à {username}, vous pouvez maintenant voir ses posts")
+    return redirect(url_for('user', username=username))
+
+
+@app.route('/desabonner/<username>')
+@login_required
+def desabonner(username: str):
+    user = User.query.filter(User.username==username).first()
+    if user is None:
+        flash(f"L'utilisateur {username} n'a pas été trouvé.")
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash("Vous ne pouvez pas vous désabonner de vous-même.")
+        return redirect(url_for('user'))
+    current_user.desabonner(user)
+    db.session.commit()
+    flash(f"Vous êtes maintenant désabonné des messages de {username}.")
+    return redirect(url_for('user', username=username))
