@@ -32,7 +32,9 @@ def index() -> str:
 def apropos() -> str:
     return render_template('apropos.html')
 
-
+@app.route('/vhezronznzeomiezqjùpegnpqzeongezigqzipgnriogqnrgirngiqrngrino')
+def disco() -> str:
+    return render_template('baseMouvante.html')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

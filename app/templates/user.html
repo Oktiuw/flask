@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block contenu %}
-<h1 class="animate__animated animate__flip animate__delay-1s animate__infinite">Utilisateur {{ user.username }}</h1>
+<h1 class="animate__animated animate__flip animate__delay-1s animate__infinite animate__slower">Utilisateur {{ user.username }}</h1>
 <div class="w3-container w3-center animate__animated animate__flip animate__delay-1s animate__infinite" >
 <img src="{{ user.avatar(128) }}"/>
     </div>
@@ -13,7 +13,7 @@
                 {{ user.abonnes.count() }} abonnés, {{ user.abonnement.count() }} abonnements
          </p>
             {% if user.last_seen %}
-                 <div class="w3-container w3-right w3-teal animate__animated animate__fadeInTopRight">
+                 <div class="w3-container w3-right w3-teal animate__animated animate__fadeInTopRight animate__jello">
                     Dernière visite : {{ moment(user.last_seen).format('LLL') }}
                  </div>
             {% endif %}
@@ -35,7 +35,6 @@
                      </p>
                  </div>
          {% endif %}
-
 <br><br><hr>
      {% for post in posts %}
  <p>

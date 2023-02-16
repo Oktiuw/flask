@@ -5,7 +5,8 @@
  title : titre de la page (str)
 -->
 <!doctype html>
-<html>
+<div class="wrapper">
+<html class="html">
  <head>
      {{ moment.include_moment() }}
      {{ moment.locale("fr") }}
@@ -25,24 +26,7 @@
  {% endif %}
  </title>
  </head>
- <body>
- <div class="animate__animated animate__jello big">
- <header style="background-color: antiquewhite">
-  <a href="{{url_for('index')}}"><img src="{{ url_for('static', filename='img/flask.png') }}" alt="Logo" height="150px" width="350" class="animate__animated animate__flip"/></a>
-      <br><br><br>
-  <nav class="animate__animated animate__bounceInDown">
-   <ul>
-    <li><a href="{{url_for('index')}}">Accueil</a></li>
-    <li><a href="{{ url_for('apropos') }}">&Agrave; propos</a></li>
-    {% if current_user.is_anonymous %}
-       <li><a href="{{ url_for('login') }}">Se connecter</a></li>
-    {% else %}
-        <li><a href="{{ url_for('user', username=current_user.username) }}">Mon profil</a></li>
-       <li><a href="{{ url_for('logout') }}">Se déconnecter</a></li>
- {% endif %}
-    </ul>
- </nav>
-  </header>
+ <body class="animate__shakeX animate__infinite animate__animated">
  <hr>
  <!-- Affichage des messages enregistrés par la fonction flash(...) -->
  {% with messages = get_flashed_messages() %}
@@ -58,6 +42,8 @@
  {% block contenu %}
  {% endblock %}
  <!-- fin d'affichage des pages -->
-     </div>
+ <div class="animate__animated animate__infinite animate__slower animate__flash" style="display: flex;justify-content: center;flex-grow: 1">
+ <img  class="animate__animated animate__infinite animate__slower animate__flip" src="{{ url_for('static', filename='img/jerome-cutrona.jpg') }}" width="1500px" height="1000px" style="opacity: 0.8;">
+</div>
  </body>
 </html>
