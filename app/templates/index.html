@@ -8,10 +8,14 @@ title : Titre de la page
 <!-- On définit le contenu du block -->
 {% block contenu %}
  <!-- Ici, on se concentre uniquement sur le contenu de la page -->
+<div class="w3-container w3-center">
+    <h1>{{title}}</h1>
     <h1>Bonjour {{ current_user.username }}</h1>
+    </div>
 <div class="w3-container w3-blue log">
 <h1 style="text-align: center">Enregistrer un post </h1>
 </div>
+{% if form %}
 <div class="w3-center w3-animate-top">
 <form action="" method="POST" class="w3-container w3-center">
     {{ form.hidden_tag() }}
@@ -27,6 +31,7 @@ title : Titre de la page
     </p>
 </form>
 </div>
+{% endif %}
 <div class="w3-container w3-center">
 {% for post in posts %}
     <div class="w3-container">

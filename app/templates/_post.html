@@ -4,8 +4,13 @@
  Paramètres :
  post : de type Post
 -->
+<a href="{{ url_for('user', username=post.author.username) }}" style="text-decoration: none;">
+<div class="w3-container w3-margin">
 <table class="">
  <tr>
- <td><img src="{{ post.author.avatar(36) }}"/></td>
- <td>{{ post.author.username }} a dit : <br>{{ post.body }}</td>
- </tr></table>
+   <td><img src="{{ post.author.avatar(36) }}" alt="user Avatar"/></td>
+   <td>{{ post.author.username }} a dit : <br>{{ post.body }}</td>
+ </tr>
+</table>
+ </div>
+ </a>

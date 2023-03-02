@@ -12,12 +12,11 @@ from werkzeug.urls import url_parse
 
 @app.route('/', methods=["GET", "POST"])
 @app.route('/index', methods=["GET", "POST"])
-@app.route('/index')
 @login_required
 def index():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author = current_user)
+        post = Post(body=form.post.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash("Votre message est maintenant en ligne !")
@@ -25,14 +24,22 @@ def index():
     posts = current_user.posts_abonnes().all()
     return render_template('index.html', title='Accueil', form=form, posts=posts)
 
+@app.route('/explorer',methods=["GET"])
+@login_required
+def explorer():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', title='Tous les messages présent sur le site', posts=posts)
 
 @app.route('/apropos')
 def apropos() -> str:
     return render_template('apropos.html')
 
+
 @app.route('/vhezronznzeomiezqjùpegnpqzeongezigqzipgnriogqnrgirngiqrngrino')
 def disco() -> str:
     return render_template('baseMouvante.html')
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -122,7 +129,7 @@ def abonner(username):
 @app.route('/desabonner/<username>')
 @login_required
 def desabonner(username: str):
-    user = User.query.filter(User.username==username).first()
+    user = User.query.filter(User.username == username).first()
     if user is None:
         flash(f"L'utilisateur {username} n'a pas été trouvé.")
         return redirect(url_for('index'))
