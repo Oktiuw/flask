@@ -4,6 +4,7 @@ import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 from flask import Flask
+from flask_mail import Mail
 from flask_moment import Moment
 
 from app.config import Config
@@ -52,10 +53,11 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 # Fonction de vue de redirection
 login.login_view = 'login'
-login.login_message = 'Il faut être connecté pour accèder à cette p age'
+login.login_message = 'Il faut être connecté pour accèder à cette page'
 
 moment = Moment(app)
 # On importe le fichier contenant
 # la définition des fonctions de vue
 # ainsi que celui des modèles
+mail = Mail(app)
 from app import routes, models, erreurs

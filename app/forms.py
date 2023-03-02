@@ -51,5 +51,20 @@ class EditProfileForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    post = TextAreaField('Message',[validators.length(1,140,'Min carac : 1 | Max : 100')])
+    post = TextAreaField('Message', [validators.length(1, 140, 'Min carac : 1 | Max : 100')])
     submit = SubmitField("Enregistrer")
+
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('email', validators=[DataRequired(message='Email requis'), Email(message='Email invalide')])
+    submit = SubmitField("Envoyer")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(label='Nouveau mot de passe',
+                             validators=[DataRequired(message="Mot de passe requis.")])
+    password2 = PasswordField(label='Confirmez le mot de passe',
+                              validators=[DataRequired(message="Il faut retaper le mot de passe"),
+                                          EqualTo(fieldname='password',
+                                                  message="Les deux mots de passe ne sont pas égaux")])
+    submit = SubmitField(label='Changer le mot de passe')
