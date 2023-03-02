@@ -54,10 +54,11 @@ login = LoginManager(app)
 # Fonction de vue de redirection
 login.login_view = 'login'
 login.login_message = 'Il faut être connecté pour accèder à cette page'
-
+from app.erreurs import bp as erreurs_bp
+app.register_blueprint(erreurs_bp)
 moment = Moment(app)
 # On importe le fichier contenant
 # la définition des fonctions de vue
 # ainsi que celui des modèles
 mail = Mail(app)
-from app import routes, models, erreurs
+from app import routes, models
