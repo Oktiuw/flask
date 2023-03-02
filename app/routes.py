@@ -2,30 +2,28 @@ from datetime import datetime
 
 from flask import render_template, Response
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 from flask import render_template, flash, redirect, url_for
-from app.models import User
+from app.models import User, Post
 from flask_login import current_user, login_user, logout_user, login_required
 from flask import request
 from werkzeug.urls import url_parse
 
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
+@app.route('/index', methods=["GET", "POST"])
 @app.route('/index')
 @login_required
-def index() -> str:
-    # user = {'username': 'Aurélien et Harun '}
-    # posts = [
-    # {
-    #   'author': {'username': 'John'},
-    #   'body': "Flask, c'est super !"
-    # },
-    # {
-    #   'author': {'username': 'Suzan'},
-    #  'body': "C'est encore mieux que Symfony ! Oups !"
-    # }
-    # ]
-    return render_template('index.html', title='Accueil')
+def index():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author = current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash("Votre message est maintenant en ligne !")
+        return redirect(url_for('index'))
+    posts = current_user.posts_abonnes().all()
+    return render_template('index.html', title='Accueil', form=form, posts=posts)
 
 
 @app.route('/apropos')

@@ -1,6 +1,6 @@
 # app/forms.py
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, validators
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
 
 from app.models import User
@@ -38,11 +38,18 @@ class EditProfileForm(FlaskForm):
     username = StringField(label='Utilisateur', validators=[DataRequired(message="Nom requis.")])
     about_me = StringField(label='A propos de moi', validators=[Length(min=0, max=140, message="Message trop long.")])
     submit = SubmitField("Sauvegarder")
+
     def __init__(self: object, name: str, *args: tuple, **kargs: dict) -> None:
         FlaskForm.__init__(self, *args, **kargs)
         self.original_username = name
+
     def validate_username(self: object, username: StringField) -> None:
         if username.data != self.original_username:
             # On recherche si l'utilisateur existe déjà dans la base de données
             if User.query.filter(User.username == username.data).first() is not None:
                 raise ValidationError("Ce nom existe déjà, choisissez-en un autre")
+
+
+class PostForm(FlaskForm):
+    post = TextAreaField('Message',[validators.length(1,140,'Min carac : 1 | Max : 100')])
+    submit = SubmitField("Enregistrer")
