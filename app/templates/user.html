@@ -41,4 +41,17 @@
  {% include "_post.html" %}
  </p>
  {% endfor %}
+    <div class="w3-container w3-center">
+ {% if prev_url %}
+     <a href="{{ prev_url }}"><span class="material-symbols-outlined">
+navigate_before
+</span></a>
+ {% endif %}
+ {% if next_url %}
+     <a href="{{ next_url }}"><span class="material-symbols-outlined">
+navigate_next
+</span></a>
+ {% endif %}
+ </div>
+</div>
 {% endblock %}

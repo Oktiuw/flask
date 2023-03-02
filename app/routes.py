@@ -21,14 +21,22 @@ def index():
         db.session.commit()
         flash("Votre message est maintenant en ligne !")
         return redirect(url_for('index'))
-    posts = current_user.posts_abonnes().all()
-    return render_template('index.html', title='Accueil', form=form, posts=posts)
+    page = request.args.get(key='page', default=1, type=int)
+    posts = current_user.posts_abonnes().paginate(page=page, max_per_page=app.config['POSTS_PAR_PAGE'], error_out=False)
+    prev_url = url_for('index', page=posts.prev_num) if posts.has_prev else None
+    next_url = url_for('index', page=posts.next_num) if posts.has_next else None
+    return render_template('index.html', title='Accueil', form=form, posts=posts, prev_url=prev_url, next_url=next_url)
 
-@app.route('/explorer',methods=["GET"])
+
+@app.route('/explorer', methods=["GET"])
 @login_required
 def explorer():
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('index.html', title='Tous les messages présent sur le site', posts=posts)
+    page = request.args.get(key='page', default=1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(page=page, max_per_page=app.config['POSTS_PAR_PAGE'], error_out=False)
+    prev_url = url_for('explorer', page=posts.prev_num) if posts.has_prev else None
+    next_url = url_for('explorer', page=posts.next_num) if posts.has_next else None
+    return render_template('index.html', title='Tous les messages présent sur le site', posts=posts,prev_url=prev_url, next_url=next_url)
+
 
 @app.route('/apropos')
 def apropos() -> str:
@@ -82,9 +90,12 @@ def register():
 @app.route('/user/<username>')
 @login_required
 def user(username: str) -> str:
+    page = request.args.get(key='page', default=1, type=int)
     user = User.query.filter(User.username == username).first_or_404('Accès refusé')
-    posts = user.posts_abonnes()
-    return render_template('user.html', user=user, posts=posts)
+    posts = user.posts_abonnes().paginate(page=page, max_per_page=app.config['POSTS_PAR_PAGE'], error_out=False)
+    prev_url = url_for('user', username=user.username,page=posts.prev_num) if posts.has_prev else None
+    next_url = url_for('user', username=user.username,page=posts.next_num) if posts.has_next else None
+    return render_template('user.html', user=user, posts=posts,prev_url=prev_url,next_url=next_url)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
