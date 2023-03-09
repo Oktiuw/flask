@@ -8,8 +8,9 @@ from app.models import User, Post
 
 
 class TestConfig(Config):
-    def __init__(self):
-        self.TESTING = True
+    TESTING=True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+
 
 
 class UserModelCase(unittest.TestCase):
