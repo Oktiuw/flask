@@ -46,9 +46,26 @@ function init_drop_operation() {
          console.log('File(s) dropped');
          ev.preventDefault();
          [...ev.dataTransfer.files].forEach((file, i) => {
-         document.getElementById("id_drop_image").src=URL.createObjectURL(file);
+         let image=document.getElementById("id_drop_image");
+         image.src=URL.createObjectURL(file)
+         image.decode().then( () => {
+             if (image.naturalWidth>400)
+             {
+                  image.width = 400
+                  image.removeAttribute("height");
+             }
+             else if (image.naturalHeight>400)
+             {
+                 image.height = 400
+                 image.removeAttribute('width')
+             }
+
+         })
+         .catch( (encodingError) => {
+             console.log(encodingError)
+         window.alert('Format  invalide')
          });
-        }
+        })}
         function dragOverHandler(ev) {
          console.log('File(s) in drop zone');
          ev.preventDefault();
