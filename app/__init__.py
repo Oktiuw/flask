@@ -56,11 +56,14 @@ login.login_view = 'auth.login'
 login.login_message = 'Il faut être connecté pour accèder à cette page'
 from app.auth import bp as auth_bp
 from app.erreurs import bp as erreurs_bp
+from app.main import bp as main_bp
 app.register_blueprint(erreurs_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(main_bp)
 moment = Moment(app)
 # On importe le fichier contenant
 # la définition des fonctions de vue
 # ainsi que celui des modèles
 
-from app import routes, models
+from app import models
+from app.main import routes

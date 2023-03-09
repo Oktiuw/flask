@@ -7,7 +7,7 @@
 <table>
  <tr>
    <td>
-       <a href="{{ url_for('user', username=post.author.username) }}" style="text-decoration: none;">
+       <a href="{{ url_for('main.user', username=post.author.username) }}" style="text-decoration: none;">
 <img src="{{ post.author.avatar(36) }}" alt="user Avatar"/> </a></td>
    <td>{{ post.author.username }} a dit : <br>{{ post.body }}</td>
  </tr>

@@ -19,18 +19,18 @@
             {% endif %}
         {% if user == current_user %}
            <div class="w3-container w3-left w3-teal animate__animated animate__fadeInTopLeft">
-             <a href="{{ url_for('edit_profile') }}">Editer votre profil</a>
+             <a href="{{ url_for('main.edit_profile') }}">Editer votre profil</a>
          </div>
         {% elif not current_user.is_abonne(user) %}
                  <div class="w3-container w3-left w3-teal">
                      <p>
-                 <a href="{{ url_for('abonner', username=user.username) }} ">S'abonner</a>
+                 <a href="{{ url_for('main.abonner', username=user.username) }} ">S'abonner</a>
                      </p>
                  </div>
          {% else %}
                  <div class="w3-container w3-left w3-teal">
                  <p>
-                     <a href="{{ url_for('desabonner', username=user.username) }}">Se
+                     <a href="{{ url_for('main.desabonner', username=user.username) }}">Se
                     désabonner</a>
                      </p>
                  </div>
