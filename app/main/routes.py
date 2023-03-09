@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db
+from app import db, Config
 from app.main import bp
 from app.main.forms import EditProfileForm, PostForm
 from flask import render_template, flash, redirect, url_for, current_app
@@ -23,7 +23,7 @@ def index():
     posts = current_user.posts_abonnes().paginate(page=page, max_per_page=current_app.config['POSTS_PAR_PAGE'], error_out=False)
     prev_url = url_for('main.index', page=posts.prev_num) if posts.has_prev else None
     next_url = url_for('main.index', page=posts.next_num) if posts.has_next else None
-    return render_template('index.html', title='Accueil', form=form, posts=posts, prev_url=prev_url, next_url=next_url)
+    return render_template('index.html', title='Accueil', form=form, posts=posts, prev_url=prev_url, next_url=next_url,size=Config.IMG_MAX_SIZE)
 
 
 @bp.route('/main/explorer', methods=["GET"])

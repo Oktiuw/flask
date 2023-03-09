@@ -60,4 +60,35 @@ background-size: 1800% 1800%;
 span.material-symbols-outlined{
     font-size: xxx-large;
 }
+form#message>*{
+    margin: 15px;
+}
+form#message
+{
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+div#drop_zone {
+    min-width: 300px;
+    min-height: 200px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border: solid 1px dodgerblue;
+    padding: 15px;
+}
+img#id_drop_image{
+    width: 300px;
+    height: 200px;
+}
+div#drop_zone:hover{
+background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3,#1ddde8,#dd00f3,#dd00f3,#DA70D6,#FFFF6A);
+background-size: 1800% 1800%;
+
+-webkit-animation: rainbow 1s ease infinite;
+-z-animation: rainbow 1s ease infinite;
+-o-animation: rainbow 1s ease infinite;
+  animation: rainbow 1s ease infinite;}
+
 

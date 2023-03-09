@@ -17,18 +17,43 @@ title : Titre de la page
 <h1 style="text-align: center">Enregistrer un post </h1>
 </div>
 <div class="w3-center w3-animate-top">
-<form action="" method="POST" class="w3-container w3-center">
+<form action="" method="POST" id="message" class="w3-container w3-center">
     {{ form.hidden_tag() }}
     <p>
         {{ form.post.label }} <br/>
         {{ form.post}}
         {% for error in form.post.errors %}
-            <span>{{ error }}</span>
+            <pan>{{ error }}</pan>
         {% endfor %}
     </p>
+    <div id="drop_zone">
+        <img id="id_drop_image" alt="Déposez une image ici" width="{{size}}" height="{{size/2}}">
+    </div>
     <p>
         {{ form.submit() }}
     </p>
+    <script>
+        let image = null;
+window.addEventListener("load", init_drop_operation);
+function init_drop_operation() {
+ // On récupère l’objet image (<img>) car on va s’en servir souvent…
+ image = document.querySelector("img#id_drop_image");
+ const drop_zone = document.getElementById("drop_zone") ;
+ drop_zone.addEventListener("drop", dropHandler);
+ drop_zone.addEventListener("dragover", dragOverHandler);
+}
+        function dropHandler(ev) {
+         console.log('File(s) dropped');
+         ev.preventDefault();
+         [...ev.dataTransfer.files].forEach((file, i) => {
+         document.getElementById("id_drop_image").src=URL.createObjectURL(file);
+         });
+        }
+        function dragOverHandler(ev) {
+         console.log('File(s) in drop zone');
+         ev.preventDefault();
+        }
+</script>
 </form>
 </div>
 {% endif %}
