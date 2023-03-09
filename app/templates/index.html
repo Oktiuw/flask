@@ -29,6 +29,9 @@ title : Titre de la page
     <div id="drop_zone">
         <img id="id_drop_image" alt="Déposez une image ici" width="{{size}}" height="{{size/2}}">
     </div>
+            <button type="button" id="deleteBtn" style="display: none;cursor: pointer" onclick="deleteImage()"><span class="material-symbols-outlined" style="color: #ff2400">
+delete
+</span></button>
     <p>
         {{ form.submit() }}
     </p>
@@ -59,6 +62,7 @@ function init_drop_operation() {
                  image.height = 400
                  image.removeAttribute('width')
              }
+             document.getElementById('deleteBtn').style.display='block';
 
          })
          .catch( (encodingError) => {
@@ -69,6 +73,12 @@ function init_drop_operation() {
         function dragOverHandler(ev) {
          console.log('File(s) in drop zone');
          ev.preventDefault();
+        }
+        function deleteImage()
+        {
+            document.getElementById("id_drop_image").src=null;
+             document.getElementById('deleteBtn').style.display='none';
+
         }
 </script>
 </form>
