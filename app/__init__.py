@@ -8,8 +8,7 @@ from flask_mail import Mail
 from flask_moment import Moment
 
 from app.config import Config
-from app.auth import bp as auth_bp
-from app.erreurs import bp as erreurs_bp
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -30,7 +29,6 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     app.logger.info('Démarrage de MonApplication')
 
-app.register_blueprint(auth_bp)
 
 if not app.debug:
     if app.config['MAIL_SERVER']:
@@ -50,18 +48,19 @@ if not app.debug:
 db = SQLAlchemy(app)
 # Démarrage de l'outil de migration associé à la base de données
 migrate = Migrate(app, db)
-
+mail = Mail(app)
 # Instanciation du module de gestion des connexions
 login = LoginManager(app)
 # Fonction de vue de redirection
-login.login_view = 'login'
+login.login_view = 'auth.login'
 login.login_message = 'Il faut être connecté pour accèder à cette page'
-
+from app.auth import bp as auth_bp
+from app.erreurs import bp as erreurs_bp
 app.register_blueprint(erreurs_bp)
-
+app.register_blueprint(auth_bp)
 moment = Moment(app)
 # On importe le fichier contenant
 # la définition des fonctions de vue
 # ainsi que celui des modèles
-mail = Mail(app)
+
 from app import routes, models

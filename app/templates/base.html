@@ -36,11 +36,11 @@
     <li><a href="{{url_for('index')}}">Accueil</a></li>
     <li><a href="{{ url_for('apropos') }}">&Agrave; propos</a></li>
     {% if current_user.is_anonymous %}
-       <li><a href="{{ url_for('login') }}">Se connecter</a></li>
+       <li><a href="{{ url_for('auth.login') }}">Se connecter</a></li>
     {% else %}
        <li><a href="{{url_for('explorer')}}">Explorer</a></li>
         <li><a href="{{ url_for('user', username=current_user.username) }}">Mon profil</a></li>
-       <li><a href="{{ url_for('logout') }}">Se déconnecter</a></li>
+       <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a></li>
  {% endif %}
     </ul>
  </nav>
