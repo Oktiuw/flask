@@ -55,6 +55,8 @@ function initDropOperation() {
      const dropZone = document.getElementById('drop_zone') ;
      dropZone.addEventListener("drop", dropHandler) ;
      dropZone.addEventListener("dragover", dragOverHandler);
+     inputFileElmt=document.getElementById("id_input_file");
+     inputFileElmt.addEventListener('input',onValueChanged);
 }
 function dropHandler(ev) {
      ev.preventDefault() ;
@@ -106,6 +108,13 @@ function onLoadImage() {
 function dealErrorImage() {
     imageElmt.alt = "Format non reconnu, déposez une image ici." ;
     removeImage() ;
+}
+function onValueChanged(ev) {
+    if (inputFileElmt.files.length>0)
+    {
+        setImage(inputFileElmt.files[0]);
+    }
+
 }
 </script>
 </form>
