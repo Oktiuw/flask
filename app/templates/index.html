@@ -23,63 +23,90 @@ title : Titre de la page
         {{ form.post.label }} <br/>
         {{ form.post}}
         {% for error in form.post.errors %}
-            <pan>{{ error }}</pan>
+            <span>{{ error }}</span>
         {% endfor %}
     </p>
+    <div class="image_zone">
     <div id="drop_zone">
         <img id="id_drop_image" alt="Déposez une image ici" width="{{size}}" height="{{size/2}}">
     </div>
-            <button type="button" id="deleteBtn" style="display: none;cursor: pointer" onclick="deleteImage()"><span class="material-symbols-outlined" style="color: #ff2400">
+        <div style="margin:15px;">
+            Séléctionner une image ->
+            {{ form.image }}
+        </div>
+        </div>
+            <button type="button" id="deleteBtn" style="display: none;cursor: pointer" onclick="removeImage()"><span class="material-symbols-outlined" style="color: #ff2400">
 delete
 </span></button>
     <p>
         {{ form.submit() }}
     </p>
     <script>
-        let image = null;
-window.addEventListener("load", init_drop_operation);
-function init_drop_operation() {
- // On récupère l’objet image (<img>) car on va s’en servir souvent…
- image = document.querySelector("img#id_drop_image");
- const drop_zone = document.getElementById("drop_zone") ;
- drop_zone.addEventListener("drop", dropHandler);
- drop_zone.addEventListener("dragover", dragOverHandler);
+        let imageElmt = null;
+        let delElmt = null;
+        let inputFileElmt = null;
+        window.addEventListener("load", initDropOperation);
+function initDropOperation() {
+     imageElmt = document.getElementById("id_drop_image");
+     imageElmt.addEventListener("load", onLoadImage) ;
+     imageElmt.addEventListener("error", dealErrorImage) ;
+     delElmt = document.getElementById('deleteBtn') ;
+     delElmt.addEventListener("click", removeImage) ;
+     const dropZone = document.getElementById('drop_zone') ;
+     dropZone.addEventListener("drop", dropHandler) ;
+     dropZone.addEventListener("dragover", dragOverHandler);
 }
-        function dropHandler(ev) {
-         console.log('File(s) dropped');
-         ev.preventDefault();
-         [...ev.dataTransfer.files].forEach((file, i) => {
-         let image=document.getElementById("id_drop_image");
-         image.src=URL.createObjectURL(file)
-         image.decode().then( () => {
-             if (image.naturalWidth>400)
-             {
-                  image.width = 400
-                  image.removeAttribute("height");
-             }
-             else if (image.naturalHeight>400)
-             {
-                 image.height = 400
-                 image.removeAttribute('width')
-             }
-             document.getElementById('deleteBtn').style.display='block';
-
-         })
-         .catch( (encodingError) => {
-             console.log(encodingError)
-         window.alert('Format  invalide')
-         });
-        })}
-        function dragOverHandler(ev) {
-         console.log('File(s) in drop zone');
-         ev.preventDefault();
-        }
-        function deleteImage()
-        {
-            document.getElementById("id_drop_image").src=null;
-             document.getElementById('deleteBtn').style.display='none';
-
-        }
+function dropHandler(ev) {
+     ev.preventDefault() ;
+     console.log(ev);
+     setImage(ev.dataTransfer.files[0]) ;
+}
+function setImage(file) {
+     imageElmt.src = URL.createObjectURL(file);
+     imageElmt.decode()
+     .then(() => {
+     adaptImageSize(file);
+         document.getElementById('deleteBtn').style.display='block';
+         imageElmt.alt='Déposer une image ici'
+     })
+     .catch( (encodingError) => {
+     console.log(encodingError);
+     dealErrorImage();
+     });
+}
+function adaptImageSize(file) {
+     if (file.naturalWidth>400)
+     {
+         file.width='400px';
+         file.removeAttribute('height');
+     }
+     else if (file.naturalHeight>400)
+     {
+         file.height='400px';
+         file.removeAttribute('width')
+     }
+}
+function dragOverHandler(ev) {
+     ev.preventDefault() ;
+}
+function removeImage() {
+    delElmt.style.display='none';
+    imageElmt.removeAttribute("src") ;
+}
+function onLoadImage() {
+    console.log(imageElmt.width)
+     if (imageElmt.naturalWidth >= imageElmt.naturalHeight && imageElmt.width !==  '400'  ) {
+         imageElmt.width =  '400px' ;
+         imageElmt.removeAttribute("height");
+     }
+     else if (imageElmt.naturalWidth < imageElmt.naturalHeight && imageElmt.height !==  '400' ) {
+         imageElmt.width = '400px' ;
+         imageElmt.removeAttribute("height");
+     }}
+function dealErrorImage() {
+    imageElmt.alt = "Format non reconnu, déposez une image ici." ;
+    removeImage() ;
+}
 </script>
 </form>
 </div>

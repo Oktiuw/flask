@@ -1,6 +1,7 @@
 from time import time
 
 import jwt
+from flask import current_app
 
 from app import db, login
 from datetime import datetime
@@ -61,14 +62,14 @@ class User(db.Model, UserMixin):
         return suivis.union(self.posts).order_by(Post.timestamp.desc())
 
     def get_reset_password_token(self: object, expire_in: int = 600) -> str:
-        return jwt.encode({'reset_password.txt': self.id, 'exp': time() + expire_in}, key=app.config['SECRET_KEY'],
+        return jwt.encode({'reset_password.txt': self.id, 'exp': time() + expire_in}, key=current_app.config['SECRET_KEY'],
                           algorithm='HS256').encode('utf-8')
 
 
     @staticmethod
     def verify_reset_password_token(token: str) -> object:
         try:
-            id = jwt.decode(token, key=app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password.txt']
+            id = jwt.decode(token, key=current_app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password.txt']
         except:
             return None
         return User.query.get(id)
@@ -79,7 +80,7 @@ class Post(db.Model):
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    image = db.Column(db.LargeBinary)
     def __repr__(self) -> str:
         return f"<Post {self.body}>"
 

@@ -1,6 +1,7 @@
 # app/forms.py
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, validators
+from flask_wtf.file import FileRequired
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, validators, FileField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Length
 
 from app.models import User
@@ -52,7 +53,5 @@ class EditProfileForm(FlaskForm):
 
 class PostForm(FlaskForm):
     post = TextAreaField('Message', [validators.length(1, 140, 'Min carac : 1 | Max : 100')])
+    image = FileField(id='id_input_file')
     submit = SubmitField("Enregistrer")
-
-
-
