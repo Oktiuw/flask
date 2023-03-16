@@ -63,13 +63,20 @@ function dropHandler(ev) {
      console.log(ev);
      setImage(ev.dataTransfer.files[0]) ;
 }
-function setImage(file) {
+function setImage(file,fromDrag=true) {
+     console.log('setImage');
      imageElmt.src = URL.createObjectURL(file);
      imageElmt.decode()
      .then(() => {
      adaptImageSize(file);
          document.getElementById('deleteBtn').style.display='block';
-         imageElmt.alt='Déposer une image ici'
+         imageElmt.alt='Déposer une image ici';
+          if (fromDrag)
+         {
+             let data=new DataTransfer();
+             data.items=file;
+             inputFileElmt.files=data.files;
+         }
      })
      .catch( (encodingError) => {
      console.log(encodingError);
@@ -90,10 +97,16 @@ function adaptImageSize(file) {
 }
 function dragOverHandler(ev) {
      ev.preventDefault() ;
+
 }
 function removeImage() {
+    console.log('remove');
     delElmt.style.display='none';
     imageElmt.removeAttribute("src") ;
+    let  dataTransfer=new DataTransfer();
+    dataTransfer.files = [];
+    inputFileElmt.files = dataTransfer.files;
+
 }
 function onLoadImage() {
     console.log(imageElmt.width)
@@ -112,7 +125,7 @@ function dealErrorImage() {
 function onValueChanged(ev) {
     if (inputFileElmt.files.length>0)
     {
-        setImage(inputFileElmt.files[0]);
+        setImage(inputFileElmt.files[0],false);
     }
 
 }
