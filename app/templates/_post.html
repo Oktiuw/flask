@@ -10,6 +10,10 @@
        <a href="{{ url_for('main.user', username=post.author.username) }}" style="text-decoration: none;">
 <img src="{{ post.author.avatar(36) }}" alt="user Avatar"/> </a></td>
    <td>{{ post.author.username }} a dit : <br>{{ post.body }}</td>
+     {% if post.image %}
+     <td><img style="width: 300px; height: 200px;" src="{{url_for('main.image',messageid=post.id) }}" alt="Image du message"></td>
+     {% endif %}
+
  </tr>
 </table>
  </div>

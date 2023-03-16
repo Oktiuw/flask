@@ -2,7 +2,7 @@ from datetime import datetime
 from app import db, Config
 from app.main import bp
 from app.main.forms import EditProfileForm, PostForm
-from flask import render_template, flash, redirect, url_for, current_app
+from flask import render_template, flash, redirect, url_for, current_app, make_response
 from app.models import User, Post
 from flask_login import current_user, login_required
 from flask import request
@@ -25,8 +25,7 @@ def index():
                                                   error_out=False)
     prev_url = url_for('main.index', page=posts.prev_num) if posts.has_prev else None
     next_url = url_for('main.index', page=posts.next_num) if posts.has_next else None
-    return render_template('index.html', title='Accueil', form=form, posts=posts, prev_url=prev_url, next_url=next_url,
-                           size=Config.IMG_MAX_SIZE)
+    return render_template('index.html', title='Accueil', form=form, posts=posts, prev_url=prev_url, next_url=next_url,size=Config.IMG_MAX_SIZE)
 
 
 @bp.route('/main/explorer', methods=["GET"])
@@ -116,3 +115,12 @@ def desabonner(username: str):
     db.session.commit()
     flash(f"Vous êtes maintenant désabonné des messages de {username}.")
     return redirect(url_for('main.user', username=username))
+
+
+@bp.route('/main/image/<messageid>')
+@login_required
+def image(messageid):
+    post = Post.query.filter(Post.id == messageid).first_or_404()
+    response = make_response(post.image)
+    response.headers['Content-Type'] = 'image/jpeg'
+    return response
