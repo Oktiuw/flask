@@ -18,3 +18,4 @@ class Config:
     ADMINS = ['vinau02@gmail.com']
     POSTS_PAR_PAGE = 3
     IMG_MAX_SIZE = 400
+    MAX_CONTENT_LENGTH = 5 * 1024 * 1024

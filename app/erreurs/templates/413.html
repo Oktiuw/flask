@@ -1,0 +1,11 @@
+<!-- app/templates/404.html -->
+<!--
+ Affichage de la page en cas d'erreur 404 : Page Not Found
+-->
+{% extends "base.html" %}
+{% block contenu %}
+<h1>Votre fichier est trop volumineux</h1>
+<p>
+ <a href="{{ url_for('main.index') }}">Retour</a>
+</p>
+{% endblock %}
