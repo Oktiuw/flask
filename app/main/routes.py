@@ -14,23 +14,27 @@ from flask import request
 def index():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
+        form.checkImage(form.image.data)
+        post = Post(body=form.post.data, author=current_user, image=form.getImageData())
         db.session.add(post)
         db.session.commit()
         flash("Votre message est maintenant en ligne !")
         return redirect(url_for('main.index'))
     page = request.args.get(key='page', default=1, type=int)
-    posts = current_user.posts_abonnes().paginate(page=page, max_per_page=current_app.config['POSTS_PAR_PAGE'], error_out=False)
+    posts = current_user.posts_abonnes().paginate(page=page, max_per_page=current_app.config['POSTS_PAR_PAGE'],
+                                                  error_out=False)
     prev_url = url_for('main.index', page=posts.prev_num) if posts.has_prev else None
     next_url = url_for('main.index', page=posts.next_num) if posts.has_next else None
-    return render_template('index.html', title='Accueil', form=form, posts=posts, prev_url=prev_url, next_url=next_url,size=Config.IMG_MAX_SIZE)
+    return render_template('index.html', title='Accueil', form=form, posts=posts, prev_url=prev_url, next_url=next_url,
+                           size=Config.IMG_MAX_SIZE)
 
 
 @bp.route('/main/explorer', methods=["GET"])
 @login_required
 def explorer():
     page = request.args.get(key='page', default=1, type=int)
-    posts = Post.query.order_by(Post.timestamp.desc()).paginate(page=page, max_per_page=current_app.config['POSTS_PAR_PAGE'],
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(page=page,
+                                                                max_per_page=current_app.config['POSTS_PAR_PAGE'],
                                                                 error_out=False)
     prev_url = url_for('main.explorer', page=posts.prev_num) if posts.has_prev else None
     next_url = url_for('main.explorer', page=posts.next_num) if posts.has_next else None

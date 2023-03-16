@@ -17,7 +17,7 @@ title : Titre de la page
 <h1 style="text-align: center">Enregistrer un post </h1>
 </div>
 <div class="w3-center w3-animate-top">
-<form action="" method="POST" id="message" class="w3-container w3-center">
+<form action="" method="POST" id="message" class="w3-container w3-center" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <p>
         {{ form.post.label }} <br/>
@@ -71,11 +71,13 @@ function setImage(file,fromDrag=true) {
      adaptImageSize(file);
          document.getElementById('deleteBtn').style.display='block';
          imageElmt.alt='Déposer une image ici';
-          if (fromDrag)
+
+          if (fromDrag===true)
          {
              let data=new DataTransfer();
-             data.items=file;
-             inputFileElmt.files=data.files;
+             data.items.add(file)
+             inputFileElmt.files=data.files
+
          }
      })
      .catch( (encodingError) => {
@@ -109,7 +111,6 @@ function removeImage() {
 
 }
 function onLoadImage() {
-    console.log(imageElmt.width)
      if (imageElmt.naturalWidth >= imageElmt.naturalHeight && imageElmt.width !==  '400'  ) {
          imageElmt.width =  '400px' ;
          imageElmt.removeAttribute("height");
