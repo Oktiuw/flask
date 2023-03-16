@@ -75,7 +75,7 @@ class PostForm(FlaskForm):
                 else:
                     h = t
                     w = im.size[0] * t // im.size[1]
-                im.resize((w, h))
+                im=im.resize((w , h))
                 fp = BytesIO()
                 im.save(fp, format='JPEG')
                 self._imageData = fp.getvalue()
