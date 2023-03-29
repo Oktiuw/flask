@@ -1,0 +1,147 @@
+Créer le env :
+
+
+python3 -m venv env_flask
+
+activer :
+
+source env_flask/bin/activate
+
+installler flask
+
+pip install flask
+
+sauvegarder les composants : 
+pip freeze -l > requirements.txt
+
+dl depuis requirements.txt
+
+pip install -r requirements.txt
+
+pour l'init regarde le monapplication.py et le .flaskenv
+
+
+ export FLASK_DEBUG=1
+FORMULAIRE :
+Configuration
+Les formulaires ont souvent besoin d’une configuration donnée (définition de variables). La solution la
+plus simple consiste à définir ces variables dans le dictionnaire existant config de l’application qu’on a
+créé :
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'un mot de passe à garder secret'
+# ... On peut ajouter d’autres définitions de “constantes”
+Dans un souci de séparation des données de l’application, on préfère utiliser une classe (qu’on peut
+appeler classe de configuration) qu’on définira dans un fichier config.py.
+4. Dans le répertoire app/, créez un nouveau fichier que vous appellerez config.py.
+5. Dans ce fichier, recopier les lignes suivantes :
+# app/config.py
+import os
+class Config:
+ SECRET_KEY = os.environ.get('SECRET_KEY') or 'un mot de passe à garder secret'
+La clé 'SECRET_KEY' est requise par le paquetage Flask-WTF (et d’autres paquetages nécessitant l’usage
+de chiffrement). Ici, Flask-WTF l’utilise pour protéger les formulaires contre une attaque appelée Crosssite Request Forgery. Le chiffrement utilisé permet de s’assurer que la requête provient bien du site de
+l’application, et non d’un autre site.
+
+
+
+La fonction flash() est très utile : elle permet d’afficher un message à l’utilisateur. Lorsqu’on appelle
+cette fonction, Flask stocke les messages mais l’affichage de ces derniers n’est pas automatique. Il faut
+le prévoir (voir ci-dessous).
+Il est possible de définir des catégories de messages avec la fonction flash() : voir la documentation…
+La méthode redirect() permet de rediriger le navigateur sur une autre page.
+18. Modifier la page base.html pour qu’elle affiche les éventuels messages enregistrés par la
+fonction flash() :
+<!-- app/templates/base.html -->
+...
+ <!-- Affichage des messages enregistrés par la fonction flash(...) -->
+ {% with messages = get_flashed_messages() %}
+ {% if messages %}
+ <ul>
+ {% for message in messages %}
+ <li>{{ message }}</li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ {% endwith %}
+
+BASE DE DONN2ES 
+
+
+Configuration de la base de données
+Ici, on configure l’application pour qu’elle utilise par défaut la base de données SQLite. La configuration
+utilise la variable SQLACHEMY_DATABASE_URI.
+4. Dans le fichier app/config.py, ajoutez la définition des variables de configuration suivantes :
+# app/config.py
+import os
+basedir = os.path.abspath(os.path.dirname( __file__ ))
+class Config(object):
+ # ...
+ # Configuration de la base de données
+ SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or 'sqlite:///' +
+ os.path.join(basedir, 'app.db')
+ SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+Dans le fichier app/__init__.py, ajoutez les lignes suivantes qui instancient le « moteur » de
+la base de données (db) ainsi que l’outil de migration (migrate) :
+# app/__init__.py
+from flask import Flask
+from app.config import Config
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+# Création de l'application
+# __name__ contient le nom de l'application : app
+app = Flask( __name__ )
+app.config.from_object(Config)
+# Démarrage du moteur de la base de données
+db = SQLAlchemy(app)
+# Démarrage de l'outil de migration associé à la base de données
+migrate = Migrate(app, db)
+# On importe le fichier contenant
+# la définition des fonctions de vue
+# ainsi que celui des modèles
+from app import routes, models
+
+
+Créez un nouveau fichier que vous appellerez models.py dans le répertoire app/ et ajoutez-y
+la définition de la classe User suivante :
+# app/models.py
+from app import db
+class User(db.Model):
+ id = db.Column(db.Integer, primary_key=True)
+ username = db.Column(db.String(64), index = True, unique = True)
+ email = db.Column(db.String(120), index=True, unique=True)
+ password_hash = db.Column(db.String(128))
+
+
+Initialisez le dépôt Alembic en tapant la commande suivante :
+(env_flask) ~/Flask $ flask db init
+Cette commande utilise la variable d’environnement FLASK_APP pour connaître l’emplacement de
+l’application qui initialise la variable db de type SQLAlchemy. Il faut donc que les fichiers __init__.py
+et models.py soient à jour ! (Si l’instance de la classe SQLAlchemy ne s’appelle pas db, il faut adapter
+la syntaxe de la commande précédente).
+Cette commande crée un répertoire migrations/ qui doit être inclus dans le dépôt Git.
+8. Réalisez la première « migration » (le premier « commit ») :
+(env_flask) ~/Flask $ flask db migrate –m "Création de la table user"
+La chaîne passée avec l’option –m correspond à un message d’explication (comme pour un commit).
+Cette commande crée un script de génération. Ce script permet de mettre à jour la base de données
+(fonction upgrade()) ou de revenir en arrière (fonction downgrade()).
+9. Mettez à jour la base de données SQLite à l’aide de la commande :
+(env_flask) ~/Flask $ flask db upgrade
+
+Contexte : 
+
+app.app_context().push()
+...
+db.session.add(u)
+db.session.commit()
+print(User.query.all())
+...
+app.app_context().pop()
+
+DANS MON APPLICATION :
+@app.shell_context_processor
+def make_shell_context():
+ return { 'db': db, 'User': User, 'Post': Post}
+
+
+
